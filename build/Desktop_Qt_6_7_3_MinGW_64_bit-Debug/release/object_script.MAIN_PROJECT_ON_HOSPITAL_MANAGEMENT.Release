@@ -1,0 +1,10 @@
+release/bill.o
+release/doctor.o
+release/globals.o
+release/main.o
+release/menu.o
+release/patient.o
+release/pharmacy.o
+release/room.o
+release/staff.o
+release/treatment.o

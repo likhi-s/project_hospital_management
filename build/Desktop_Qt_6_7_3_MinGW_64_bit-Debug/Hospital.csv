@@ -1,0 +1,21 @@
+PATIENT_DATA
+PatientID,Name,Gender,Age,Address,ContactNumber,EmergencyContactNumber
+1,"likhitha",female,23,"fghj",8956,9856
+DOCTOR_DATA
+DoctorID,Name,Specialization,ConsultationFee,ContactNumber,Experience,Qualification
+1,"meghana",ortho,1500.00,9894512,8,"mbbs"
+STAFF_DATA
+StaffID,Name,Role,Shift,Salary,ContactNumber
+1,"Pallavi",technician,day,25000.00,8415
+TREATMENT_DATA
+TreatmentID,Name,Cost,Duration
+1,"erty",2500,3
+PHARMACY_DATA
+MedicineID,Name,Cost,StockQuantity,Type,Dosage
+1,"Dolo 650",30.00,50,tablet,"650 mg"
+ROOM_DATA
+RoomID,Type,BedCount,AvailableBeds,BedStatus,Fee
+1,general,20,18,vacant,250.00
+BILL_DATA
+BillID,PatientID,TreatmentID,ConsultationFee,PharmacyFee,RoomFee,TotalAmount,BillDate
+1,1,1,1000.00,1500.00,250.00,2750.00,05/12/2024

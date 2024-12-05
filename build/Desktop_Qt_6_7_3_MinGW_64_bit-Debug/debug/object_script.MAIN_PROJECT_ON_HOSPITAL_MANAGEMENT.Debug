@@ -1,0 +1,10 @@
+debug/bill.o
+debug/doctor.o
+debug/globals.o
+debug/main.o
+debug/menu.o
+debug/patient.o
+debug/pharmacy.o
+debug/room.o
+debug/staff.o
+debug/treatment.o
