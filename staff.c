@@ -3,11 +3,11 @@
 #include <string.h>
 #include <stdbool.h>
 #include "staff.h"
-#include "globals.h"
+#include "menu.h"
 #define USER_ID "staff_user"
 #define USER_PASSWORD "staff@123"
 
-
+Staff *staffHead =NULL ;
 void verifyStaffManagementUser()
 {
     char userId[15];
@@ -68,16 +68,16 @@ void addStaff()
     printf("Enter Staff ID: ");
     scanf("%d", &newStaff->staffId);
 
-    Staff *temp = staffHead;
+    Staff *staffTemp = staffHead;
     int idExists = 0;
-    while (temp != NULL)
+    while (staffTemp != NULL)
     {
-        if (temp->staffId == newStaff->staffId)
+        if (staffTemp->staffId == newStaff->staffId)
         {
             idExists = 1;
             break;
         }
-        temp = temp->next;
+        staffTemp = staffTemp->next;
     }
 
     if (idExists)
@@ -112,16 +112,16 @@ void updateStaffDetails()
     printf("Enter Staff ID to update: ");
     scanf("%d", &id);
 
-    Staff *temp = staffHead;
+    Staff *staffTemp = staffHead;
     int staffFound = 0;
 
-    while (temp != NULL)
+    while (staffTemp != NULL)
     {
-        if (temp->staffId == id)
+        if (staffTemp->staffId == id)
         {
             staffFound = 1;
 
-            printf("Updating details for %s...\n", temp->staffName);
+            printf("Updating details for %s...\n", staffTemp->staffName);
             printf("Which details do you want to update?\n");
             printf("1. Update Staff Name\n2. Update Role\n3. Update Shift\n4. Update Salary\n5. Update Contact Number\n");
             printf("Enter your choice: ");
@@ -131,23 +131,23 @@ void updateStaffDetails()
             {
             case UPDATE_STAFF_NAME:
                 printf("Enter New Staff Name: ");
-                scanf(" %[^\n]", temp->staffName);
+                scanf(" %[^\n]", staffTemp->staffName);
                 break;
             case UPDATE_STAFF_ROLE:
                 printf("Enter New Role: ");
-                scanf(" %[^\n]", temp->staffRole);
+                scanf(" %[^\n]", staffTemp->staffRole);
                 break;
             case UPDATE_STAFF_SHIFT:
                 printf("Enter New Shift (Day/Night): ");
-                scanf("%s", temp->staffShift);
+                scanf("%s", staffTemp->staffShift);
                 break;
             case UPDATE_STAFF_SALARY:
                 printf("Enter New Salary: ");
-                scanf("%f", &temp->staffSalary);
+                scanf("%f", &staffTemp->staffSalary);
                 break;
             case UPDATE_STAFF_CONTACT_NUMBER:
                 printf("Enter New Contact Number: ");
-                scanf("%s", temp->staffContactNumber);
+                scanf("%s", staffTemp->staffContactNumber);
                 break;
             default:
                 printf("Invalid choice.\n");
@@ -156,7 +156,7 @@ void updateStaffDetails()
             printf("Required staff details updated successfully.\n");
             break;
         }
-        temp = temp->next;
+        staffTemp = staffTemp->next;
     }
 
     if (!staffFound)
@@ -173,17 +173,17 @@ void displayStaffDetails()
         return;
     }
 
-    Staff *temp = staffHead;
+    Staff *staffTemp = staffHead;
     printf("\n--- Staff Details ---\n");
-    while (temp != NULL)
+    while (staffTemp != NULL)
     {
-        printf("Staff ID: %d\n", temp->staffId);
-        printf("Name: %s\n", temp->staffName);
-        printf("Role: %s\n", temp->staffRole);
-        printf("Shift: %s\n", temp->staffShift);
-        printf("Salary: %f\n", temp->staffSalary);
-        printf("Contact Number: %s\n", temp->staffContactNumber);
-        temp = temp->next;
+        printf("Staff ID: %d\n", staffTemp->staffId);
+        printf("Name: %s\n", staffTemp->staffName);
+        printf("Role: %s\n", staffTemp->staffRole);
+        printf("Shift: %s\n", staffTemp->staffShift);
+        printf("Salary: %f\n", staffTemp->staffSalary);
+        printf("Contact Number: %s\n", staffTemp->staffContactNumber);
+        staffTemp = staffTemp->next;
     }
 }
 
@@ -193,21 +193,21 @@ void searchByStaffId()
     printf("Enter Staff ID to search: ");
     scanf("%d", &id);
     int searchIdFound = 0;
-    Staff *temp = staffHead;
-    while (temp != NULL)
+    Staff *staffTemp = staffHead;
+    while (staffTemp != NULL)
     {
-        if (temp->staffId == id)
+        if (staffTemp->staffId == id)
         {
             printf("\n--- Staff Found ---\n");
-            printf("Name: %s\n", temp->staffName);
-            printf("Role: %s\n", temp->staffRole);
-            printf("Shift: %s\n", temp->staffShift);
-            printf("Salary: %f\n", temp->staffSalary);
-            printf("Contact Number: %s\n", temp->staffContactNumber);
+            printf("Name: %s\n", staffTemp->staffName);
+            printf("Role: %s\n", staffTemp->staffRole);
+            printf("Shift: %s\n", staffTemp->staffShift);
+            printf("Salary: %f\n", staffTemp->staffSalary);
+            printf("Contact Number: %s\n", staffTemp->staffContactNumber);
             searchIdFound = 1;
             break;
         }
-        temp = temp->next;
+        staffTemp = staffTemp->next;
     }
     if (!searchIdFound)
     {
@@ -221,24 +221,24 @@ void searchByStaffRole()
     printf("Enter Staff Role to search: ");
     scanf(" %[^\n]", searchRole);
 
-    Staff *temp = staffHead;
+    Staff *staffTemp = staffHead;
     int searchRoleFound = 0;
 
-    while (temp != NULL)
+    while (staffTemp != NULL)
     {
-        if (strcasecmp(searchRole, temp->staffRole) == 0)
+        if (strcasecmp(searchRole, staffTemp->staffRole) == 0)
         {
             printf("\n--- Staff Found ---\n");
-            printf("Staff ID: %d\n", temp->staffId);
-            printf("Name: %s\n", temp->staffName);
-            printf("Role: %s\n", temp->staffRole);
-            printf("Shift: %s\n", temp->staffShift);
-            printf("Salary: %f\n", temp->staffSalary);
-            printf("Contact Number: %s\n", temp->staffContactNumber);
+            printf("Staff ID: %d\n", staffTemp->staffId);
+            printf("Name: %s\n", staffTemp->staffName);
+            printf("Role: %s\n", staffTemp->staffRole);
+            printf("Shift: %s\n", staffTemp->staffShift);
+            printf("Salary: %f\n", staffTemp->staffSalary);
+            printf("Contact Number: %s\n", staffTemp->staffContactNumber);
             searchRoleFound = 1;
             break;
         }
-        temp = temp->next;
+        staffTemp = staffTemp->next;
     }
 
     if (!searchRoleFound)

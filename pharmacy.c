@@ -3,11 +3,11 @@
 #include <string.h>
 #include <stdbool.h>
 #include "pharmacy.h"
-#include "globals.h"
+#include "menu.h"
 #define USER_ID "pharmacy_user"
 #define USER_PASSWORD "pharmacy@123"
 
-
+Pharmacy *pharmacyHead = NULL;
 void verifyPharmacyManagementUser()
 {
     char userId[15];
@@ -71,16 +71,16 @@ void addMedicine()
     printf("Enter Medicine ID: ");
     scanf("%d", &newMedicine->medicineId);
 
-    Pharmacy *temp = pharmacyHead;
+    Pharmacy *pharmacyTemp = pharmacyHead;
     int idExists = 0;
-    while (temp != NULL)
+    while (pharmacyTemp != NULL)
     {
-        if (temp->medicineId == newMedicine->medicineId)
+        if (pharmacyTemp->medicineId == newMedicine->medicineId)
         {
             idExists = 1;
             break;
         }
-        temp = temp->next;
+        pharmacyTemp = pharmacyTemp->next;
     }
 
     if (idExists)
@@ -115,16 +115,16 @@ void updateMedicineDetails()
     printf("Enter Medicine ID to update: ");
     scanf("%d", &id);
 
-    Pharmacy *temp = pharmacyHead;
+    Pharmacy *pharmacyTemp = pharmacyHead;
     int medicineFound = 0;
 
-    while (temp != NULL)
+    while (pharmacyTemp != NULL)
     {
-        if (temp->medicineId == id)
+        if (pharmacyTemp->medicineId == id)
         {
             medicineFound = 1;
 
-            printf("Updating details for %s...\n", temp->medicineName);
+            printf("Updating details for %s...\n", pharmacyTemp->medicineName);
             printf("Which details do you want to update?\n");
             printf("1. Update Medicine Name\n2. Update Medicine Cost\n3. Update Medicine Stock\n4. Update Medicine Type\n5. Update Medicine Dosage\n");
             printf("Enter your choice: ");
@@ -134,23 +134,23 @@ void updateMedicineDetails()
             {
             case UPDATE_MEDICINE_NAME:
                 printf("Enter New Medicine Name: ");
-                scanf(" %[^\n]", temp->medicineName);
+                scanf(" %[^\n]", pharmacyTemp->medicineName);
                 break;
             case UPDATE_MEDICINE_COST:
                 printf("Enter New Medicine Cost: ");
-                scanf("%f", &temp->medicineCost);
+                scanf("%f", &pharmacyTemp->medicineCost);
                 break;
             case UPDATE_MEDICINE_STOCK:
                 printf("Enter New Stock Quantity: ");
-                scanf("%d", &temp->medicineStockQuantity);
+                scanf("%d", &pharmacyTemp->medicineStockQuantity);
                 break;
             case UPDATE_MEDICINE_TYPE:
                 printf("Enter New Medicine Type: ");
-                scanf(" %[^\n]", temp->medicineType);
+                scanf(" %[^\n]", pharmacyTemp->medicineType);
                 break;
             case UPDATE_MEDICINE_DOSAGE:
                 printf("Enter New Medicine Dosage: ");
-                scanf(" %[^\n]", temp->medicineDosage);
+                scanf(" %[^\n]", pharmacyTemp->medicineDosage);
                 break;
             default:
                 printf("Invalid choice.\n");
@@ -159,7 +159,7 @@ void updateMedicineDetails()
             printf("Medicine details updated successfully.\n");
             break;
         }
-        temp = temp->next;
+        pharmacyTemp = pharmacyTemp->next;
     }
 
     if (!medicineFound)
@@ -176,17 +176,17 @@ void displayMedicineDetails()
         return;
     }
 
-    Pharmacy *temp = pharmacyHead;
+    Pharmacy *pharmacyTemp = pharmacyHead;
     printf("\n--- Medicine Details ---\n");
-    while (temp != NULL)
+    while (pharmacyTemp != NULL)
     {
-        printf("Medicine ID: %d\n", temp->medicineId);
-        printf("Name: %s\n", temp->medicineName);
-        printf("Cost: %f\n", temp->medicineCost);
-        printf("Stock Quantity: %d\n", temp->medicineStockQuantity);
-        printf("Type: %s\n", temp->medicineType);
-        printf("Dosage: %s\n", temp->medicineDosage);
-        temp = temp->next;
+        printf("Medicine ID: %d\n", pharmacyTemp->medicineId);
+        printf("Name: %s\n", pharmacyTemp->medicineName);
+        printf("Cost: %f\n", pharmacyTemp->medicineCost);
+        printf("Stock Quantity: %d\n", pharmacyTemp->medicineStockQuantity);
+        printf("Type: %s\n", pharmacyTemp->medicineType);
+        printf("Dosage: %s\n", pharmacyTemp->medicineDosage);
+        pharmacyTemp = pharmacyTemp->next;
     }
 }
 
@@ -196,21 +196,21 @@ void searchByMedicineId()
     printf("Enter Medicine ID to search: ");
     scanf("%d", &id);
     int searchIdFound = 0;
-    Pharmacy *temp = pharmacyHead;
-    while (temp != NULL)
+    Pharmacy *pharmacyTemp = pharmacyHead;
+    while (pharmacyTemp != NULL)
     {
-        if (temp->medicineId == id)
+        if (pharmacyTemp->medicineId == id)
         {
             printf("\n--- Medicine Found ---\n");
-            printf("Name: %s\n", temp->medicineName);
-            printf("Cost: %f\n", temp->medicineCost);
-            printf("Stock Quantity: %d\n", temp->medicineStockQuantity);
-            printf("Type: %s\n", temp->medicineType);
-            printf("Dosage: %s\n", temp->medicineDosage);
+            printf("Name: %s\n", pharmacyTemp->medicineName);
+            printf("Cost: %f\n", pharmacyTemp->medicineCost);
+            printf("Stock Quantity: %d\n", pharmacyTemp->medicineStockQuantity);
+            printf("Type: %s\n", pharmacyTemp->medicineType);
+            printf("Dosage: %s\n", pharmacyTemp->medicineDosage);
             searchIdFound = 1;
             break;
         }
-        temp = temp->next;
+        pharmacyTemp = pharmacyTemp->next;
     }
 
     if (!searchIdFound)
@@ -225,23 +225,23 @@ void searchByMedicineName()
     printf("Enter Medicine Name to search: ");
     scanf(" %[^\n]", name);
 
-    Pharmacy *temp = pharmacyHead;
+    Pharmacy *pharmacyTemp = pharmacyHead;
     int searchNameFound = 0;
 
-    while (temp != NULL)
+    while (pharmacyTemp != NULL)
     {
-        if (strcasecmp(name, temp->medicineName) == 0)
+        if (strcasecmp(name, pharmacyTemp->medicineName) == 0)
         {
             printf("\n--- Medicine Found ---\n");
-            printf("Medicine ID: %d\n", temp->medicineId);
-            printf("Cost: %f\n", temp->medicineCost);
-            printf("Stock Quantity: %d\n", temp->medicineStockQuantity);
-            printf("Type: %s\n", temp->medicineType);
-            printf("Dosage: %s\n", temp->medicineDosage);
+            printf("Medicine ID: %d\n", pharmacyTemp->medicineId);
+            printf("Cost: %f\n", pharmacyTemp->medicineCost);
+            printf("Stock Quantity: %d\n", pharmacyTemp->medicineStockQuantity);
+            printf("Type: %s\n", pharmacyTemp->medicineType);
+            printf("Dosage: %s\n", pharmacyTemp->medicineDosage);
             searchNameFound = 1;
             break;
         }
-        temp = temp->next;
+        pharmacyTemp = pharmacyTemp->next;
     }
 
     if (!searchNameFound)
@@ -256,18 +256,18 @@ void checkMedicineStock()
     printf("Enter Medicine ID to check stock: ");
     scanf("%d", &id);
     int stockFound = 0;
-    Pharmacy *temp = pharmacyHead;
-    while (temp != NULL)
+    Pharmacy *pharmacyTemp = pharmacyHead;
+    while (pharmacyTemp != NULL)
     {
-        if (temp->medicineId == id)
+        if (pharmacyTemp->medicineId == id)
         {
             printf("\n--- Stock Details ---\n");
-            printf("Medicine ID: %d\n", temp->medicineId);
-            printf("Stock Quantity: %d\n", temp->medicineStockQuantity);
+            printf("Medicine ID: %d\n", pharmacyTemp->medicineId);
+            printf("Stock Quantity: %d\n", pharmacyTemp->medicineStockQuantity);
             stockFound = 1;
             break;
         }
-        temp = temp->next;
+        pharmacyTemp = pharmacyTemp->next;
     }
 
     if (!stockFound)

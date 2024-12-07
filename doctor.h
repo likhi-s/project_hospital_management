@@ -14,6 +14,7 @@ typedef struct doctor
     char doctorQualification[50];
     struct doctor *next;
 } Doctor;
+extern Doctor *doctorHead ;
 
 enum DoctorManagementMenu
 {
@@ -43,8 +44,7 @@ void updateDoctorDetails();
 void displayDoctorDetails();
 void searchByDoctorId();
 void searchByDoctorSpecialization();
-void saveDoctorData();
-int loadDoctorData();
+
 
 
 

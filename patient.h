@@ -34,6 +34,7 @@ enum PatientUpdateDetail
 
 
 
+extern Patient *patientHead ;
 
 void verifyPatientManagementUser();
 void registerPatient();
@@ -41,5 +42,4 @@ void displayPatientDetails();
 void searchByPatientId();
 void searchByPatientName();
 void updatePatientDetails();
-void savePatientData();
-int loadPatientData();
+

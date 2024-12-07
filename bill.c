@@ -3,11 +3,11 @@
 #include <string.h>
 #include <stdbool.h>
 #include "bill.h"
-#include "globals.h"
+#include "menu.h"
 #define USER_ID "bill_user"
 #define USER_PASSWORD "bill@123"
 
-
+Bill *billHead = NULL;
 void verifyBillManagementUser()
 {
     char userId[15];
@@ -69,16 +69,16 @@ void addBill()
     printf("Enter Bill ID: ");
     scanf("%d", &newBill->billId);
 
-    Bill *temp = billHead;
+    Bill *billTemp = billHead;
     int idExists = 0;
-    while (temp != NULL)
+    while (billTemp != NULL)
     {
-        if (temp->billId == newBill->billId)
+        if (billTemp->billId == newBill->billId)
         {
             idExists = 1;
             break;
         }
-        temp = temp->next;
+        billTemp = billTemp->next;
     }
 
     if (idExists)
@@ -117,16 +117,16 @@ void updateBillDetails()
     printf("Enter Bill ID to update: ");
     scanf("%d", &id);
 
-    Bill *temp = billHead;
+    Bill *billTemp = billHead;
     int billFound = 0;
 
-    while (temp != NULL)
+    while (billTemp != NULL)
     {
-        if (temp->billId == id)
+        if (billTemp->billId == id)
         {
             billFound = 1;
 
-            printf("Updating details for Bill ID %d...\n", temp->billId);
+            printf("Updating details for Bill ID %d...\n", billTemp->billId);
             printf("Which details do you want to update?\n");
             printf("1. Update Patient ID\n2. Update Treatment ID\n3. Update Consultation Fee\n4. Update Pharmacy Fee\n5. Update Room Fee\n6. Update Bill Date\n");
             printf("Enter your choice: ");
@@ -136,37 +136,37 @@ void updateBillDetails()
             {
             case UPDATE_BILL_WITH_PATIENT_ID:
                 printf("Enter New Patient ID: ");
-                scanf("%d", &temp->patientId);
+                scanf("%d", &billTemp->patientId);
                 break;
             case UPDATE_BILL_WITH_TREATMENT_ID:
                 printf("Enter New Treatment ID: ");
-                scanf("%d", &temp->treatmentId);
+                scanf("%d", &billTemp->treatmentId);
                 break;
             case UPDATE_BILL_WITH_CONSULTATION_FEE:
                 printf("Enter New Consultation Fee: ");
-                scanf("%f", &temp->consultationFee);
+                scanf("%f", &billTemp->consultationFee);
                 break;
             case UPDATE_BILL_WITH_PHARMACY_FEE:
                 printf("Enter New Pharmacy Fee: ");
-                scanf("%f", &temp->pharmacyFee);
+                scanf("%f", &billTemp->pharmacyFee);
                 break;
             case UPDATE_BILL_WITH_ROOM_FEE:
                 printf("Enter New Room Fee: ");
-                scanf("%f", &temp->roomFee);
+                scanf("%f", &billTemp->roomFee);
                 break;
             case UPDATE_BILL_DATE:
                 printf("Enter New Bill Date (DD/MM/YYYY): ");
-                scanf(" %[^\n]", temp->billDate);
+                scanf(" %[^\n]", billTemp->billDate);
                 break;
             default:
                 printf("Invalid choice.\n");
                 break;
             }
-            temp->totalBillAmount = temp->consultationFee + temp->pharmacyFee + temp->roomFee;
+            billTemp->totalBillAmount = billTemp->consultationFee + billTemp->pharmacyFee + billTemp->roomFee;
             printf("Bill details updated successfully.\n");
             break;
         }
-        temp = temp->next;
+        billTemp = billTemp->next;
     }
 
     if (!billFound)
@@ -183,19 +183,19 @@ void displayBillDetails()
         return;
     }
 
-    Bill *temp = billHead;
+    Bill *billTemp = billHead;
     printf("\n--- Bill Details ---\n");
-    while (temp != NULL)
+    while (billTemp != NULL)
     {
-        printf("Bill ID: %d\n", temp->billId);
-        printf("Patient ID: %d\n", temp->patientId);
-        printf("Treatment ID: %d\n", temp->treatmentId);
-        printf("Consultation Fee: %f\n", temp->consultationFee);
-        printf("Pharmacy Fee: %f\n", temp->pharmacyFee);
-        printf("Room Fee: %f\n", temp->roomFee);
-        printf("Total Bill Amount: %.2f\n", temp->totalBillAmount);
-        printf("Bill Date: %s\n", temp->billDate);
-        temp = temp->next;
+        printf("Bill ID: %d\n", billTemp->billId);
+        printf("Patient ID: %d\n", billTemp->patientId);
+        printf("Treatment ID: %d\n", billTemp->treatmentId);
+        printf("Consultation Fee: %f\n", billTemp->consultationFee);
+        printf("Pharmacy Fee: %f\n", billTemp->pharmacyFee);
+        printf("Room Fee: %f\n", billTemp->roomFee);
+        printf("Total Bill Amount: %.2f\n", billTemp->totalBillAmount);
+        printf("Bill Date: %s\n", billTemp->billDate);
+        billTemp = billTemp->next;
     }
 }
 
@@ -205,23 +205,23 @@ void searchBillByPatientId()
     printf("Enter Patient ID to search: ");
     scanf("%d", &patientId);
     int searchIdFound = 0;
-    Bill *temp = billHead;
-    while (temp != NULL)
+    Bill *billTemp = billHead;
+    while (billTemp != NULL)
     {
-        if (temp->patientId == patientId)
+        if (billTemp->patientId == patientId)
         {
             printf("\n--- Bill Found ---\n");
-            printf("Bill ID: %d\n", temp->billId);
-            printf("Treatment ID: %d\n", temp->treatmentId);
-            printf("Consultation Fee: %f\n", temp->consultationFee);
-            printf("Pharmacy Fee: %f\n", temp->pharmacyFee);
-            printf("Room Fee: %f\n", temp->roomFee);
-            printf("Total Bill Amount: %f\n", temp->totalBillAmount);
-            printf("Bill Date: %s\n", temp->billDate);
+            printf("Bill ID: %d\n", billTemp->billId);
+            printf("Treatment ID: %d\n", billTemp->treatmentId);
+            printf("Consultation Fee: %f\n", billTemp->consultationFee);
+            printf("Pharmacy Fee: %f\n", billTemp->pharmacyFee);
+            printf("Room Fee: %f\n", billTemp->roomFee);
+            printf("Total Bill Amount: %f\n", billTemp->totalBillAmount);
+            printf("Bill Date: %s\n", billTemp->billDate);
             searchIdFound = 1;
             break;
         }
-        temp = temp->next;
+        billTemp = billTemp->next;
     }
 
     if (!searchIdFound)
@@ -235,22 +235,22 @@ void calculateBill()
     int id;
     printf("Enter Bill ID to calculate: ");
     scanf("%d", &id);
-    Bill *temp = billHead;
+    Bill *billTemp = billHead;
     int billFound = 0;
-    while (temp != NULL)
+    while (billTemp != NULL)
     {
-        if (temp->billId == id)
+        if (billTemp->billId == id)
         {
             printf("\n--- Bill Calculation ---\n");
-            printf("Consultation Fee: %f\n", temp->consultationFee);
-            printf("Pharmacy Fee: %f\n", temp->pharmacyFee);
-            printf("Room Fee: %f\n", temp->roomFee);
-            temp->totalBillAmount = temp->consultationFee + temp->pharmacyFee + temp->roomFee;
-            printf("Total Bill Amount: %f\n", temp->totalBillAmount);
+            printf("Consultation Fee: %f\n", billTemp->consultationFee);
+            printf("Pharmacy Fee: %f\n", billTemp->pharmacyFee);
+            printf("Room Fee: %f\n", billTemp->roomFee);
+            billTemp->totalBillAmount = billTemp->consultationFee + billTemp->pharmacyFee + billTemp->roomFee;
+            printf("Total Bill Amount: %f\n", billTemp->totalBillAmount);
             billFound = 1;
             break;
         }
-        temp = temp->next;
+        billTemp = billTemp->next;
     }
 
     if (!billFound)

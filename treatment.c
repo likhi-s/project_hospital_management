@@ -3,11 +3,11 @@
 #include <string.h>
 #include <stdbool.h>
 #include "treatment.h"
-#include "globals.h"
+#include "menu.h"
 #define USER_ID "treatment_user"
 #define USER_PASSWORD "treatment@123"
 
-
+Treatment *treatmentHead = NULL ;
 void verifyTreatmentAndPriceManagementUser()
 {
     char userId[15];
@@ -21,7 +21,8 @@ void verifyTreatmentAndPriceManagementUser()
 
     if (strcmp(userId, USER_ID) == 0 && strcmp(userPass, USER_PASSWORD) == 0)
     {
-        while (true) {
+        while (true)
+        {
             printf("\n--- Treatment Management System ---\n");
             printf("1. Add Treatment\n2. Update Treatment Details\n3. Display All Treatments\n4. Search Treatment by ID\n5. Search Treatment by Name\n6. Exit Treatment Management\n");
             printf("Enter your option: ");

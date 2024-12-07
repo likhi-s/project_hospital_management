@@ -3,11 +3,11 @@
 #include <string.h>
 #include <stdbool.h>
 #include "room.h"
-#include "globals.h"
+#include "menu.h"
 #define USER_ID "room_user"
 #define USER_PASSWORD "room@123"
 
-
+Room *roomHead =NULL;
 void verifyRoomManagementUser()
 {
     char userId[15];
@@ -71,16 +71,16 @@ void addRoom()
     printf("Enter Room ID: ");
     scanf("%d", &newRoom->roomId);
 
-    Room *temp = roomHead;
+    Room *roomTemp = roomHead;
     int idExists = 0;
-    while (temp != NULL)
+    while (roomTemp != NULL)
     {
-        if (temp->roomId == newRoom->roomId)
+        if (roomTemp->roomId == newRoom->roomId)
         {
             idExists = 1;
             break;
         }
-        temp = temp->next;
+        roomTemp = roomTemp->next;
     }
 
     if (idExists)
@@ -115,16 +115,16 @@ void updateRoomDetails()
     printf("Enter Room ID to update: ");
     scanf("%d", &id);
 
-    Room *temp = roomHead;
+    Room *roomTemp = roomHead;
     int roomFound = 0;
 
-    while (temp != NULL)
+    while (roomTemp != NULL)
     {
-        if (temp->roomId == id)
+        if (roomTemp->roomId == id)
         {
             roomFound = 1;
 
-            printf("Updating details for Room ID %d...\n", temp->roomId);
+            printf("Updating details for Room ID %d...\n", roomTemp->roomId);
             printf("Which details do you want to update?\n");
             printf("1. Update Room Type\n2. Update Bed Count\n3. Update Available Beds\n4. Update Bed Status\n5. Update Room Fee\n");
             printf("Enter your choice: ");
@@ -134,23 +134,23 @@ void updateRoomDetails()
             {
             case UPDATE_ROOM_TYPE:
                 printf("Enter New Room Type: ");
-                scanf(" %[^\n]", temp->roomType);
+                scanf(" %[^\n]", roomTemp->roomType);
                 break;
             case UPDATE_BED_COUNT:
                 printf("Enter New Bed Count: ");
-                scanf("%d", &temp->bedCount);
+                scanf("%d", &roomTemp->bedCount);
                 break;
             case UPDATE_AVAILABLE_BEDS:
                 printf("Enter New Available Beds: ");
-                scanf("%d", &temp->availableBeds);
+                scanf("%d", &roomTemp->availableBeds);
                 break;
             case UPDATE_BED_STATUS:
                 printf("Enter New Bed Status (occupied/vacant): ");
-                scanf(" %[^\n]", temp->bedStatus);
+                scanf(" %[^\n]", roomTemp->bedStatus);
                 break;
             case UPDATE_ROOM_FEE:
                 printf("Enter New Room Fee: ");
-                scanf("%f", &temp->roomFee);
+                scanf("%f", &roomTemp->roomFee);
                 break;
             default:
                 printf("Invalid choice.\n");
@@ -159,7 +159,7 @@ void updateRoomDetails()
             printf("Room details updated successfully.\n");
             break;
         }
-        temp = temp->next;
+        roomTemp = roomTemp->next;
     }
 
     if (!roomFound)
@@ -176,17 +176,17 @@ void displayRoomDetails()
         return;
     }
 
-    Room *temp = roomHead;
+    Room *roomTemp = roomHead;
     printf("\n--- Room Details ---\n");
-    while (temp != NULL)
+    while (roomTemp != NULL)
     {
-        printf("Room ID: %d\n", temp->roomId);
-        printf("Room Type: %s\n", temp->roomType);
-        printf("Total Beds: %d\n", temp->bedCount);
-        printf("Available Beds: %d\n", temp->availableBeds);
-        printf("Bed Status: %s\n", temp->bedStatus);
-        printf("Room Fee: %f\n", temp->roomFee);
-        temp = temp->next;
+        printf("Room ID: %d\n", roomTemp->roomId);
+        printf("Room Type: %s\n", roomTemp->roomType);
+        printf("Total Beds: %d\n", roomTemp->bedCount);
+        printf("Available Beds: %d\n", roomTemp->availableBeds);
+        printf("Bed Status: %s\n", roomTemp->bedStatus);
+        printf("Room Fee: %f\n", roomTemp->roomFee);
+        roomTemp = roomTemp->next;
     }
 }
 
@@ -196,21 +196,21 @@ void searchByRoomId()
     printf("Enter Room ID to search: ");
     scanf("%d", &id);
     int searchIdFound = 0;
-    Room *temp = roomHead;
-    while (temp != NULL)
+    Room *roomTemp = roomHead;
+    while (roomTemp != NULL)
     {
-        if (temp->roomId == id)
+        if (roomTemp->roomId == id)
         {
             printf("\n--- Room Found ---\n");
-            printf("Room Type: %s\n", temp->roomType);
-            printf("Total Beds: %d\n", temp->bedCount);
-            printf("Available Beds: %d\n", temp->availableBeds);
-            printf("Bed Status: %s\n", temp->bedStatus);
-            printf("Room Fee: %f\n", temp->roomFee);
+            printf("Room Type: %s\n", roomTemp->roomType);
+            printf("Total Beds: %d\n", roomTemp->bedCount);
+            printf("Available Beds: %d\n", roomTemp->availableBeds);
+            printf("Bed Status: %s\n", roomTemp->bedStatus);
+            printf("Room Fee: %f\n", roomTemp->roomFee);
             searchIdFound = 1;
             break;
         }
-        temp = temp->next;
+        roomTemp = roomTemp->next;
     }
 
     if (!searchIdFound)
@@ -225,23 +225,23 @@ void searchByRoomType()
     printf("Enter Room Type (icu/general/private) to search: ");
     scanf(" %[^\n]", type);
 
-    Room *temp = roomHead;
+    Room *roomTemp = roomHead;
     int searchTypeFound = 0;
 
-    while (temp != NULL)
+    while (roomTemp != NULL)
     {
-        if (strcasecmp(type, temp->roomType) == 0)
+        if (strcasecmp(type, roomTemp->roomType) == 0)
         {
             printf("\n--- Room Found ---\n");
-            printf("Room ID: %d\n", temp->roomId);
-            printf("Total Beds: %d\n", temp->bedCount);
-            printf("Available Beds: %d\n", temp->availableBeds);
-            printf("Bed Status: %s\n", temp->bedStatus);
-            printf("Room Fee: %f\n", temp->roomFee);
+            printf("Room ID: %d\n", roomTemp->roomId);
+            printf("Total Beds: %d\n", roomTemp->bedCount);
+            printf("Available Beds: %d\n", roomTemp->availableBeds);
+            printf("Bed Status: %s\n", roomTemp->bedStatus);
+            printf("Room Fee: %f\n", roomTemp->roomFee);
             searchTypeFound = 1;
             break;
         }
-        temp = temp->next;
+        roomTemp = roomTemp->next;
     }
 
     if (!searchTypeFound)
@@ -256,18 +256,18 @@ void checkAvailability()
     printf("Enter Room ID to check availability: ");
     scanf("%d", &id);
     int availabilityFound = 0;
-    Room *temp = roomHead;
-    while (temp != NULL)
+    Room *roomTemp = roomHead;
+    while (roomTemp != NULL)
     {
-        if (temp->roomId == id)
+        if (roomTemp->roomId == id)
         {
             printf("\n--- Room Availability ---\n");
-            printf("Room ID: %d\n", temp->roomId);
-            printf("Available Beds: %d\n", temp->availableBeds);
+            printf("Room ID: %d\n", roomTemp->roomId);
+            printf("Available Beds: %d\n", roomTemp->availableBeds);
             availabilityFound = 1;
             break;
         }
-        temp = temp->next;
+        roomTemp = roomTemp->next;
     }
 
     if (!availabilityFound)

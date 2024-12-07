@@ -3,10 +3,11 @@
 #include <string.h>
 #include <stdbool.h>
 #include "menu.h"
-#include "globals.h"
+#include "patient.h"
 #define USER_ID "patient_user"
 #define USER_PASSWORD "patient@123"
 
+Patient *patientHead = NULL;
 void verifyPatientManagementUser()
 {
     char userId[15];
@@ -20,7 +21,8 @@ void verifyPatientManagementUser()
 
     if (strcmp(userId, USER_ID) == 0 && strcmp(userPass, USER_PASSWORD) == 0)
     {
-        while (true) {
+        while (true)
+        {
             printf("\n--- Patient Management System ---\n");
             printf("1. Register patient\n2. Update patient details\n3. Display Available Patients\n4. Search Patient by ID\n5. Search Patient by Name\n6. Exit from Patient management\n");
             printf("Enter your option: ");
@@ -67,16 +69,16 @@ void registerPatient()
     printf("Enter Patient ID: ");
     scanf("%d", &newPatient->patientId);
 
-    Patient *temp = patientHead;
+    Patient *patientTemp = patientHead;
     int idExists = 0;
-    while (temp != NULL)
+    while (patientTemp != NULL)
     {
-        if (temp->patientId == newPatient->patientId)
+        if (patientTemp->patientId == newPatient->patientId)
         {
             idExists = 1;
             break;
         }
-        temp = temp->next;
+        patientTemp = patientTemp->next;
     }
 
     if (idExists)
@@ -182,18 +184,18 @@ void displayPatientDetails()
         return;
     }
 
-    Patient *temp = patientHead;
+    Patient *patientTemp = patientHead;
     printf("\n--- Patient Details ---\n");
-    while (temp != NULL)
+    while (patientTemp != NULL)
     {
-        printf("Patient ID: %d\n", temp->patientId);
-        printf("Name: %s\n", temp->patientName);
-        printf("Gender: %s\n", temp->patientGender);
-        printf("Age: %d\n", temp->patientAge);
-        printf("Address: %s\n", temp->patientAddress);
-        printf("Contact Number: %s\n", temp->patientContactNumber);
-        printf("Emergency Contact Number: %s\n", temp->patientEmergencyContactNumber);
-        temp = temp->next;
+        printf("Patient ID: %d\n", patientTemp->patientId);
+        printf("Name: %s\n", patientTemp->patientName);
+        printf("Gender: %s\n", patientTemp->patientGender);
+        printf("Age: %d\n", patientTemp->patientAge);
+        printf("Address: %s\n", patientTemp->patientAddress);
+        printf("Contact Number: %s\n", patientTemp->patientContactNumber);
+        printf("Emergency Contact Number: %s\n", patientTemp->patientEmergencyContactNumber);
+        patientTemp = patientTemp->next;
     }
 }
 
@@ -204,22 +206,22 @@ void searchByPatientId()
     printf("Enter Patient ID to search: ");
     scanf("%d", &id);
     int searchIdFound=0;
-    Patient *temp = patientHead;
-    while (temp != NULL)
+    Patient *patientTemp = patientHead;
+    while (patientTemp != NULL)
     {
-        if (temp->patientId == id)
+        if (patientTemp->patientId == id)
         {
             printf("\n--- Patient Found ---\n");
-            printf("Name: %s\n", temp->patientName);
-            printf("Gender: %s\n", temp->patientGender);
-            printf("Age: %d\n", temp->patientAge);
-            printf("Address: %s\n", temp->patientAddress);
-            printf("Contact Number: %s\n", temp->patientContactNumber);
-            printf("Emergency Contact Number: %s\n", temp->patientEmergencyContactNumber);
+            printf("Name: %s\n", patientTemp->patientName);
+            printf("Gender: %s\n", patientTemp->patientGender);
+            printf("Age: %d\n", patientTemp->patientAge);
+            printf("Address: %s\n", patientTemp->patientAddress);
+            printf("Contact Number: %s\n", patientTemp->patientContactNumber);
+            printf("Emergency Contact Number: %s\n", patientTemp->patientEmergencyContactNumber);
             searchIdFound=1;
             break;
         }
-        temp = temp->next;
+        patientTemp = patientTemp->next;
     }
     if(!searchIdFound)
     {
@@ -235,25 +237,25 @@ void searchByPatientName()
     printf("Enter Patient Name to search: ");
     scanf(" %[^\n]", searchName);
 
-    Patient *temp = patientHead;
+    Patient *patientTemp = patientHead;
     int searchNameFound = 0;
 
-    while (temp != NULL)
+    while (patientTemp != NULL)
     {
-        if (strcasecmp(searchName,temp->patientName) == 0)
+        if (strcasecmp(searchName,patientTemp->patientName) == 0)
         {
             printf("\n--- Patient Found ---\n");
-            printf("Patient ID: %d\n", temp->patientId);
-            printf("Name: %s\n", temp->patientName);
-            printf("Gender: %s\n", temp->patientGender);
-            printf("Age: %d\n", temp->patientAge);
-            printf("Address: %s\n", temp->patientAddress);
-            printf("Contact Number: %s\n", temp->patientContactNumber);
-            printf("Emergency Contact Number: %s\n", temp->patientEmergencyContactNumber);
+            printf("Patient ID: %d\n", patientTemp->patientId);
+            printf("Name: %s\n", patientTemp->patientName);
+            printf("Gender: %s\n", patientTemp->patientGender);
+            printf("Age: %d\n", patientTemp->patientAge);
+            printf("Address: %s\n", patientTemp->patientAddress);
+            printf("Contact Number: %s\n", patientTemp->patientContactNumber);
+            printf("Emergency Contact Number: %s\n", patientTemp->patientEmergencyContactNumber);
             searchNameFound =1;
             break;
         }
-        temp = temp->next;
+        patientTemp = patientTemp->next;
     }
 
     if (!searchNameFound)

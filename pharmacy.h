@@ -10,6 +10,7 @@ typedef struct pharmacy
     char medicineDosage[100];
     struct pharmacy *next;
 }Pharmacy;
+extern Pharmacy *pharmacyHead ;
 
 enum PharmacyMenuOption
 {
@@ -37,6 +38,5 @@ void displayMedicineDetails();
 void searchByMedicineId();
 void searchByMedicineName();
 void checkMedicineStock();
-void saveMedicineData();
-int loadMedicineData();
+
 #endif // PHARMACY_H

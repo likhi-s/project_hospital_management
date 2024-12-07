@@ -11,6 +11,7 @@ typedef struct roomManagement
     float roomFee;
     struct roomManagement *next;
 }Room;
+extern Room *roomHead;
 
 enum RoomManagementOptions
 {
@@ -40,8 +41,7 @@ void displayRoomDetails();
 void searchByRoomId();
 void searchByRoomType();
 void checkAvailability();
-void saveRoomData();
-int loadRoomData();
+
 
 #endif // ROOM_H
 

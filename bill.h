@@ -13,6 +13,7 @@ typedef struct bill
     char billDate[20];
     struct bill *next;
 }Bill;
+extern Bill *billHead;
 
 enum BillMenuOption
 {
@@ -41,7 +42,6 @@ void updateBillDetails();
 void displayBillDetails();
 void searchBillByPatientId();
 void calculateBill();
-void saveBillData();
-int loadBillData();
+
 
 #endif // BILL_H

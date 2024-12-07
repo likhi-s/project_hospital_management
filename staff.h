@@ -10,6 +10,8 @@ typedef struct staff
     char staffContactNumber[15];
     struct staff *next;
 }Staff;
+extern Staff *staffHead ;
+
 enum StaffManagementMenu
 {
     ADD_STAFF = 1,
@@ -36,8 +38,7 @@ void updateStaffDetails();
 void displayStaffDetails();
 void searchByStaffId();
 void searchByStaffRole();
-void saveStaffData();
-int loadStaffData();
+
 
 
 #endif // STAFF_H

@@ -8,6 +8,7 @@ typedef struct treatment
     int treatmentDuration;//in days
     struct treatment *next;
 }Treatment;
+extern Treatment *treatmentHead ;
 
 enum TreatmentManagementOptions
 {
@@ -35,8 +36,7 @@ void updateTreatmentDetails();
 void displayTreatment();
 void searchByTreatmentId();
 void searchByTreatmentName();
-void saveTreatmentData();
-int loadTreatmentData();
+
 
 
 #endif // TREATMENT_H

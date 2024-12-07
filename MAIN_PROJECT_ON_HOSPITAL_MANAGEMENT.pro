@@ -6,7 +6,6 @@ CONFIG -= qt
 SOURCES += \
         bill.c \
         doctor.c \
-        globals.c \
         main.c \
         menu.c \
         patient.c \
@@ -18,7 +17,6 @@ SOURCES += \
 HEADERS += \
     bill.h \
     doctor.h \
-    globals.h \
     menu.h \
     patient.h \
     pharmacy.h \
